@@ -42,7 +42,7 @@ window.onload = async () => {
 // --- DATABASE PARSING ---
 async function loadDatabase() {
     try {
-        const text = await fetch("database.txt").then(r => r.text());
+        const text = await fetch("/assets/database.txt").then(r => r.text());
         const lines = text.split("\n");
         let currentAlbum = null;
 
