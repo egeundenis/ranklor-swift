@@ -1,0 +1,231 @@
+--- Album: Taylor Swift
+-- Track 1: Tim McGraw
+-- Track 2: Picture to Burn
+-- Track 3: Teardrops on My Guitar
+-- Track 4: A Place in This World
+-- Track 5: Cold as You
+-- Track 6: The Outside
+-- Track 7: Tied Together with a Smile
+-- Track 8: Stay Beautiful
+-- Track 9: Should've Said No
+-- Track 10: Mary's Song (Oh My My My)
+-- Track 11: Our Song
+- (Deluxe) Track 1: I'm Only Me When I'm with You
+- (Deluxe) Track 2: Invisible
+- (Deluxe) Track 3: A Perfectly Good Heart
+
+--- Album: Fearless
+-- Track 1: Fearless
+-- Track 2: Fifteen
+-- Track 3: Love Story
+-- Track 4: Hey Stephen
+-- Track 5: White Horse
+-- Track 6: You Belong with Me
+-- Track 7: Breathe
+-- Track 8: Tell Me Why
+-- Track 9: You're Not Sorry
+-- Track 10: The Way I Loved You
+-- Track 11: Forever & Always
+-- Track 12: The Best Day
+-- Track 13: Change
+- (Deluxe) Track 1: Jump Then Fall
+- (Deluxe) Track 2: Untouchable
+- (Deluxe) Track 3: Forever & Always (Piano Version)
+- (Deluxe) Track 4: Come in with the Rain
+- (Deluxe) Track 5: Superstar
+- (Deluxe) Track 6: The Other Side of the Door
+
+--- Album: Speak Now
+-- Track 1: Mine
+-- Track 2: Sparks Fly
+-- Track 3: Back to December
+-- Track 4: Speak Now
+-- Track 5: Dear John
+-- Track 6: Mean
+-- Track 7: The Story of Us
+-- Track 8: Never Grow Up
+-- Track 9: Enchanted
+-- Track 10: Better Than Revenge
+-- Track 11: Innocent
+-- Track 12: Haunted
+-- Track 13: Last Kiss
+-- Track 14: Long Live
+- (Deluxe) Track 1: Ours
+- (Deluxe) Track 2: If This Was a Movie
+- (Deluxe) Track 3: Superman
+
+--- Album: Red
+-- Track 1: State of Grace
+-- Track 2: Red
+-- Track 3: Treacherous
+-- Track 4: I Knew You Were Trouble
+-- Track 5: All Too Well
+-- Track 6: 22
+-- Track 7: I Almost Do
+-- Track 8: We Are Never Ever Getting Back Together
+-- Track 9: Stay Stay Stay
+-- Track 10: The Last Time
+-- Track 11: Holy Ground
+-- Track 12: Sad Beautiful Tragic
+-- Track 13: The Lucky One
+-- Track 14: Everything Has Changed
+-- Track 15: Starlight
+-- Track 16: Begin Again
+- (Deluxe) Track 1: The Moment I Knew
+- (Deluxe) Track 2: Come Back...Be Here
+- (Deluxe) Track 3: Girl at Home
+
+--- Album: 1989
+-- Track 1: Welcome to New York
+-- Track 2: Blank Space
+-- Track 3: Style
+-- Track 4: Out of the Woods
+-- Track 5: All You Had to Do Was Stay
+-- Track 6: Shake It Off
+-- Track 7: I Wish You Would
+-- Track 8: Bad Blood
+-- Track 9: Wildest Dreams
+-- Track 10: How You Get the Girl
+-- Track 11: This Love
+-- Track 12: I Know Places
+-- Track 13: Clean
+- (Deluxe) Track 1: Wonderland
+- (Deluxe) Track 2: You Are in Love
+- (Deluxe) Track 3: New Romantics
+
+--- Album: Reputation
+-- Track 1: ...Ready for It?
+-- Track 2: End Game
+-- Track 3: I Did Something Bad
+-- Track 4: Don't Blame Me
+-- Track 5: Delicate
+-- Track 6: Look What You Made Me Do
+-- Track 7: So It Goes...
+-- Track 8: Gorgeous
+-- Track 9: Getaway Car
+-- Track 10: King of My Heart
+-- Track 11: Dancing with Our Hands Tied
+-- Track 12: Dress
+-- Track 13: This Is Why We Can't Have Nice Things
+-- Track 14: Call It What You Want
+-- Track 15: New Year's Day
+
+--- Album: Lover
+-- Track 1: I Forgot That You Existed
+-- Track 2: Cruel Summer
+-- Track 3: Lover
+-- Track 4: The Man
+-- Track 5: The Archer
+-- Track 6: I Think He Knows
+-- Track 7: Miss Americana & The Heartbreak Prince
+-- Track 8: Paper Rings
+-- Track 9: Cornelia Street
+-- Track 10: Death by a Thousand Cuts
+-- Track 11: London Boy
+-- Track 12: Soon You'll Get Better
+-- Track 13: False God
+-- Track 14: You Need to Calm Down
+-- Track 15: Afterglow
+-- Track 16: ME!
+-- Track 17: It's Nice to Have a Friend
+-- Track 18: Daylight
+
+--- Album: folklore
+-- Track 1: the 1
+-- Track 2: cardigan
+-- Track 3: the last great american dynasty
+-- Track 4: exile
+-- Track 5: my tears ricochet
+-- Track 6: mirrorball
+-- Track 7: seven
+-- Track 8: august
+-- Track 9: this is me trying
+-- Track 10: illicit affairs
+-- Track 11: invisible string
+-- Track 12: mad woman
+-- Track 13: epiphany
+-- Track 14: betty
+-- Track 15: peace
+-- Track 16: hoax
+- (Deluxe) Track 1: the lakes
+
+--- Album: evermore
+-- Track 1: willow
+-- Track 2: champagne problems
+-- Track 3: gold rush
+-- Track 4: 'tis the damn season
+-- Track 5: tolerate it
+-- Track 6: no body, no crime
+-- Track 7: happiness
+-- Track 8: dorothea
+-- Track 9: coney island
+-- Track 10: ivy
+-- Track 11: cowboy like me
+-- Track 12: long story short
+-- Track 13: marjorie
+-- Track 14: closure
+-- Track 15: evermore
+
+--- Album: Midnights
+-- Track 1: Lavender Haze
+-- Track 2: Maroon
+-- Track 3: Anti-Hero
+-- Track 4: Snow on the Beach
+-- Track 5: You're on Your Own, Kid
+-- Track 6: Midnight Rain
+-- Track 7: Question...?
+-- Track 8: Vigilante Shit
+-- Track 9: Bejeweled
+-- Track 10: Labyrinth
+-- Track 11: Karma
+-- Track 12: Sweet Nothing
+-- Track 13: Mastermind
+- (Deluxe) Track 1: The Great War
+- (Deluxe) Track 2: Bigger Than the Whole Sky
+- (Deluxe) Track 3: Paris
+- (Deluxe) Track 4: High Infidelity
+- (Deluxe) Track 5: Glitch
+- (Deluxe) Track 6: Would've, Could've, Should've
+- (Deluxe) Track 7: Dear Reader
+
+--- Album: The Tortured Poets Department
+-- Track 1: Fortnight
+-- Track 2: The Tortured Poets Department
+-- Track 3: My Boy Only Breaks His Favorite Toys
+-- Track 4: Down Bad
+-- Track 5: So Long, London
+-- Track 6: But Daddy I Love Him
+-- Track 7: Fresh Out the Slammer
+-- Track 8: Florida!!!
+-- Track 9: Guilty as Sin?
+-- Track 10: Who’s Afraid of Little Old Me?
+-- Track 11: I Can Fix Him (No Really I Can)
+-- Track 12: loml
+-- Track 13: I Can Do It With a Broken Heart
+-- Track 14: The Smallest Man Who Ever Lived
+-- Track 15: The Albatross
+-- Track 16: Clara Bow
+-- Track 17: The Manuscript
+- (Deluxe) Track 1: The Black Dog
+- (Deluxe) Track 2: imgonnagetyouback
+- (Deluxe) Track 3: The Albatross (Extended)
+- (Deluxe) Track 4: The Bolter
+- (Deluxe) Track 5: Robin
+- (Deluxe) Track 6: The Prophecy
+- (Deluxe) Track 7: Cassandra
+- (Deluxe) Track 8: Peter
+- (Deluxe) Track 9: The Manuscript (Extended)
+
+--- Album: The Life of a Showgirl
+-- Track 1: The Fate of Ophelia
+-- Track 2: Elizabeth Taylor
+-- Track 3: Opalite
+-- Track 4: Father Figure
+-- Track 5: Eldest Daughter
+-- Track 6: Ruin the Friendship
+-- Track 7: Actually Romantic
+-- Track 8: Wish List
+-- Track 9: Wood
+-- Track 10: Cancelled!
+-- Track 11: Honey
+-- Track 12: The Life of a Showgirl

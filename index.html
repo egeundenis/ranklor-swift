@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Taylor Swift Song Ranking</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>Taylor Swift Song Ranking</h1>
+    <p>Select an album to begin ranking</p>
+  </header>
+
+  <section id="album-select" class="album-select">
+    <!-- Album icons -->
+    <div class="album-grid">
+      <div class="album" data-album="debut">
+        <img src="icons/debut.png" alt="Debut" />
+        <span>Debut</span>
+      </div>
+      <div class="album" data-album="fearless">
+        <img src="icons/fearless.png" alt="Fearless" />
+        <span>Fearless</span>
+      </div>
+      <div class="album" data-album="speaknow">
+        <img src="icons/speaknow.png" alt="Speak Now" />
+        <span>Speak Now</span>
+      </div>
+      <div class="album" data-album="red">
+        <img src="icons/red.png" alt="Red" />
+        <span>Red</span>
+      </div>
+      <div class="album" data-album="1989">
+        <img src="icons/1989.png" alt="1989" />
+        <span>1989</span>
+      </div>
+      <div class="album" data-album="reputation">
+        <img src="icons/reputation.png" alt="Reputation" />
+        <span>Reputation</span>
+      </div>
+      <div class="album" data-album="lover">
+        <img src="icons/lover.png" alt="Lover" />
+        <span>Lover</span>
+      </div>
+      <div class="album" data-album="folklore">
+        <img src="icons/folklore.png" alt="Folklore" />
+        <span>Folklore</span>
+      </div>
+      <div class="album" data-album="evermore">
+        <img src="icons/evermore.png" alt="Evermore" />
+        <span>Evermore</span>
+      </div>
+      <div class="album" data-album="midnights">
+        <img src="icons/midnights.png" alt="Midnights" />
+        <span>Midnights</span>
+      </div>
+      <div class="album" data-album="thetorturedpoetsdepartmant">
+        <img src="icons/thetorturedpoetsdepartmant.png" alt="The Tortured Poets Department" />
+        <span>The Tortured Poets Department</span>
+      </div>
+      <div class="album" data-album="thelifeofashowgirl">
+        <img src="icons/thelifeofashowgirl.png" alt="The Life of a Showgirl" />
+        <span>The Life of a Showgirl</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="ranking-section" class="hidden">
+    <h2>Which song do you prefer?</h2>
+    <div id="pairwise-container"></div>
+  </section>
+
+  <section id="result-section" class="hidden">
+    <h2>Your Ranking</h2>
+    <div id="result"></div>
+    <textarea id="shareable" readonly></textarea>
+  </section>
+
+  <script src="script.js"></script>
+</body>
+</html>
