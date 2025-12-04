@@ -1,173 +1,232 @@
-// GLOBALS
-let allData = {};
-let currentAlbum = null;
-let songs = [];
-let ranking = [];
-let compareIndex = { left: 0, right: 1 };
-let mergeSortQueue = [];
+// --- CONFIGURATION ---
+const ALBUM_IMAGES = {
+    "Taylor Swift": "icons/debut.png",
+    "Fearless": "icons/fearless.png",
+    "Speak Now": "icons/speaknow.png",
+    "Red": "icons/red.png",
+    "1989": "icons/1989.png",
+    "reputation": "icons/reputation.png",
+    "Lover": "icons/lover.png",
+    "folklore": "icons/folklore.png",
+    "evermore": "icons/evermore.png",
+    "Midnights": "icons/midnights.png",
+    "The Tortured Poets Department": "icons/thetorturedpoetsdepartmant.png",
+    "The Life of a Showgirl": "icons/thelifeofashowgirl.png"
+};
 
-// ---------------------------------------------------------------------------
-// LOAD database.txt
-// ---------------------------------------------------------------------------
+// --- GLOBAL STATE ---
+let allAlbumData = {};
+let currentAlbumName = "";
 
+// Sorting State
+let queue = [];        // Array of arrays (sorted lists we are merging)
+let currentMerge = {
+    listA: [],
+    listB: [],
+    merged: [],
+    finalQueue: []     // Where merged lists go to wait for the next pass
+};
+
+// --- INITIALIZATION ---
+window.onload = async () => {
+    await loadDatabase();
+    renderAlbumGrid();
+    
+    // Attach event listeners
+    document.getElementById('btn-left').onclick = () => handleVote('left');
+    document.getElementById('btn-right').onclick = () => handleVote('right');
+    document.getElementById('copy-btn').onclick = copyToClipboard;
+    document.getElementById('restart-btn').onclick = () => location.reload();
+};
+
+// --- DATABASE PARSING ---
 async function loadDatabase() {
-    const text = await fetch("database.txt").then(r => r.text());
-    const lines = text.split("\n");
+    try {
+        const text = await fetch("database.txt").then(r => r.text());
+        const lines = text.split("\n");
+        let currentAlbum = null;
 
-    let current = null;
+        lines.forEach(line => {
+            // Remove citations like 
+            let cleanLine = line.replace(/\//g, "").trim();
 
-    for (let line of lines) {
-        line = line.trim();
-        if (line.startsWith("--- Album:")) {
-            current = line.replace("--- Album:", "").trim();
-            allData[current] = [];
-        } else if (line.startsWith("-- Track") || line.startsWith("-(Deluxe) Track") || line.startsWith("-(Deluxe)") || line.startsWith("- (Deluxe) Track")) {
-            const split = line.split(":");
-            if (split.length >= 2) {
-                const title = split.slice(1).join(":").trim();
-                allData[current].push(title);
+            if (cleanLine.startsWith("--- Album:")) {
+                currentAlbum = cleanLine.replace("--- Album:", "").trim();
+                allAlbumData[currentAlbum] = [];
+            } else if ((cleanLine.startsWith("-- Track") || cleanLine.startsWith("- (Deluxe)")) && currentAlbum) {
+                // Extract song title after the colon
+                const parts = cleanLine.split(":");
+                if (parts.length > 1) {
+                    // Rejoin in case song title has a colon, remove extra formatting
+                    let songTitle = parts.slice(1).join(":").trim();
+                    if(songTitle) allAlbumData[currentAlbum].push(songTitle);
+                }
             }
-        }
+        });
+    } catch (e) {
+        alert("Error loading database.txt. Make sure it exists.");
+        console.error(e);
     }
 }
 
-// ---------------------------------------------------------------------------
-// START RANKING WHEN ALBUM CLICKED
-// ---------------------------------------------------------------------------
+// --- RENDER ALBUMS ---
+function renderAlbumGrid() {
+    const grid = document.getElementById('album-grid');
+    grid.innerHTML = "";
 
-async function initAlbumButtons() {
-    await loadDatabase();
-
-    const cards = document.querySelectorAll(".album-card");
-
-    cards.forEach(card => {
-        card.addEventListener("click", () => {
-            const album = card.querySelector("strong").innerText.trim();
-
-            if (!allData[album]) {
-                alert("Album not found in database.txt: " + album);
-                return;
-            }
-
+    Object.keys(allAlbumData).forEach(album => {
+        // Fallback image if not in mapping
+        const imgSrc = ALBUM_IMAGES[album] || "icons/default.png";
+        
+        const card = document.createElement('div');
+        card.className = 'album-card';
+        card.innerHTML = `
+            <img src="${imgSrc}" alt="${album}" onerror="this.src='https://placehold.co/150?text=Album'"/>
+            <div>${album}</div>
+        `;
+        
+        card.addEventListener('click', () => {
+            // Highlight selected
+            document.querySelectorAll('.album-card').forEach(c => c.classList.remove('selected'));
+            card.classList.add('selected');
             startRanking(album);
         });
+
+        grid.appendChild(card);
     });
 }
 
-// ---------------------------------------------------------------------------
-// START RANKING PROCESS
-// ---------------------------------------------------------------------------
+// --- RANKING LOGIC (Iterative Merge Sort) ---
 
-function startRanking(albumName) {
-    currentAlbum = albumName;
-    songs = [...allData[albumName]];
+function startRanking(album) {
+    currentAlbumName = album;
+    const songs = allAlbumData[album];
 
-    if (songs.length < 2) {
-        alert("Not enough songs in this album to rank.");
+    if (!songs || songs.length < 2) {
+        alert("Not enough songs to rank!");
         return;
     }
 
-    document.getElementById("album-selection-view").style.display = "none";
-    document.getElementById("ranking-view").style.display = "flex";
+    // Initialize Queue: treat every song as a sorted list of length 1
+    // Shuffle slightly to make initial matchups less predictable? 
+    // (Optional, currently keeping tracklist order)
+    queue = songs.map(song => [song]); 
+    
+    // UI Setup
+    document.getElementById('ranking-interface').classList.remove('hidden');
+    document.getElementById('results-section').classList.add('hidden');
+    document.getElementById('ranking-interface').scrollIntoView({ behavior: 'smooth' });
 
-    ranking = mergeSortSetup(songs);
-    showNextComparison();
+    setupNextMerge();
 }
 
-// ---------------------------------------------------------------------------
-// MERGE SORT–BASED RANKING SETUP
-// ---------------------------------------------------------------------------
-
-function mergeSortSetup(array) {
-    const queue = [];
-
-    function split(arr) {
-        if (arr.length === 1) return arr;
-        const mid = Math.floor(arr.length / 2);
-        const left = split(arr.slice(0, mid));
-        const right = split(arr.slice(mid));
-        queue.push([left, right, []]); // left, right, merged
-        return [...left, ...right];
-    }
-
-    split(array);
-    mergeSortQueue = queue.reverse();
-    return [];
-}
-
-// ---------------------------------------------------------------------------
-// UI COMPARISON DISPLAY
-// ---------------------------------------------------------------------------
-
-function showNextComparison() {
-    if (mergeSortQueue.length === 0) {
-        // Finished
-        rankingFinished();
+function setupNextMerge() {
+    // If we have nothing left to merge in the main queue
+    if (queue.length < 2) {
+        // If we have items in the "next pass" queue (finalQueue), swap them in
+        if (currentMerge.finalQueue && currentMerge.finalQueue.length > 0) {
+            // If the main queue had 1 straggler, add it to the next pass
+            if (queue.length === 1) {
+                currentMerge.finalQueue.push(queue[0]);
+            }
+            queue = currentMerge.finalQueue;
+            currentMerge.finalQueue = []; // Reset for new pass
+            setupNextMerge(); // Recurse
+        } else {
+            // WE ARE DONE! Queue[0] is the final sorted list
+            finishRanking(queue[0]);
+        }
         return;
     }
 
-    const [left, right, merged] = mergeSortQueue[0];
-
-    const leftSong = left[0];
-    const rightSong = right[0];
-
-    document.getElementById("leftSong").innerText = leftSong;
-    document.getElementById("rightSong").innerText = rightSong;
-
-    document.getElementById("currentAlbumTitle").innerText = currentAlbum;
+    // Pull the first two lists off the queue to merge them
+    currentMerge.listA = queue.shift();
+    currentMerge.listB = queue.shift();
+    currentMerge.merged = [];
+    
+    updateComparisonUI();
 }
 
-// ---------------------------------------------------------------------------
-// HANDLE USER CHOICE
-// ---------------------------------------------------------------------------
+function updateComparisonUI() {
+    const songA = currentMerge.listA[0];
+    const songB = currentMerge.listB[0];
 
-document.getElementById("chooseLeft").onclick = () => choose("left");
-document.getElementById("chooseRight").onclick = () => choose("right");
+    // If one list is empty, auto-complete this specific merge
+    if (!songA || !songB) {
+        finishCurrentPair();
+        return;
+    }
 
-function choose(side) {
-    let [left, right, merged] = mergeSortQueue[0];
+    document.getElementById('btn-left').innerText = songA;
+    document.getElementById('btn-right').innerText = songB;
+    updateProgress();
+}
 
-    if (side === "left") {
-        merged.push(left.shift());
+function handleVote(side) {
+    if (side === 'left') {
+        // User picked A. Push A to merged, remove from listA
+        currentMerge.merged.push(currentMerge.listA.shift());
     } else {
-        merged.push(right.shift());
+        // User picked B. Push B to merged, remove from listB
+        currentMerge.merged.push(currentMerge.listB.shift());
     }
-
-    if (left.length === 0 && right.length === 0) {
-        mergeSortQueue.shift();
-        mergedAll(merged);
-    }
-
-    showNextComparison();
+    updateComparisonUI();
 }
 
-function mergedAll(result) {
-    if (ranking.length === 0) ranking = result;
-    else ranking = ranking.concat(result);
+function finishCurrentPair() {
+    // One list is empty, push remaining items from the other
+    if (currentMerge.listA.length > 0) currentMerge.merged.push(...currentMerge.listA);
+    if (currentMerge.listB.length > 0) currentMerge.merged.push(...currentMerge.listB);
+
+    // This pair is merged. Push result to the "waiting room" (finalQueue)
+    if (!currentMerge.finalQueue) currentMerge.finalQueue = [];
+    currentMerge.finalQueue.push(currentMerge.merged);
+
+    // Go to next pair in the main queue
+    setupNextMerge();
 }
 
-// ---------------------------------------------------------------------------
-// FINISH & DISPLAY RANKED LIST
-// ---------------------------------------------------------------------------
+// --- RESULTS ---
 
-function rankingFinished() {
-    document.getElementById("ranking-view").style.display = "none";
-    document.getElementById("result-view").style.display = "block";
+function finishRanking(sortedList) {
+    document.getElementById('ranking-interface').classList.add('hidden');
+    const resultSection = document.getElementById('results-section');
+    resultSection.classList.remove('hidden');
+    
+    const container = document.getElementById('final-list-container');
+    container.innerHTML = "";
 
-    const list = document.getElementById("resultList");
-    list.innerHTML = "";
+    sortedList.forEach((song, index) => {
+        const row = document.createElement('div');
+        row.className = 'rank-item';
+        row.innerHTML = `<span class="rank-num">#${index + 1}</span> <span>${song}</span>`;
+        container.appendChild(row);
+    });
 
-    ranking.forEach((song, i) => {
-        const li = document.createElement("li");
-        li.innerText = `${i + 1}. ${song}`;
-        list.appendChild(li);
+    resultSection.scrollIntoView({ behavior: 'smooth' });
+}
+
+function copyToClipboard() {
+    const list = document.querySelectorAll('.rank-item');
+    let text = `My ${currentAlbumName} Ranking:\n\n`;
+    list.forEach(item => {
+        text += `${item.innerText}\n`;
+    });
+    
+    navigator.clipboard.writeText(text).then(() => {
+        const btn = document.getElementById('copy-btn');
+        const originalText = btn.innerText;
+        btn.innerText = "✅ Copied!";
+        setTimeout(() => btn.innerText = originalText, 2000);
     });
 }
 
-// ---------------------------------------------------------------------------
-// STARTUP
-// ---------------------------------------------------------------------------
-
-window.onload = () => {
-    initAlbumButtons();
-};
+function updateProgress() {
+    // Rough estimate of progress based on songs remaining to be compared vs total
+    // It's hard to be exact with Merge Sort without pre-calculating, 
+    // so we'll just animate a little bar to show activity.
+    const bar = document.getElementById('progress-fill');
+    let w = parseFloat(bar.style.width) || 0;
+    if (w < 95) bar.style.width = (w + 2) + "%";
+    document.getElementById('progress-text').innerText = "Ranking..."; 
+}

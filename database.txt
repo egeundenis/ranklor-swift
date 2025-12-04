@@ -208,13 +208,13 @@
 -- Track 17: The Manuscript
 - (Deluxe) Track 1: The Black Dog
 - (Deluxe) Track 2: imgonnagetyouback
-- (Deluxe) Track 3: The Albatross (Extended)
+- (Deluxe) Track 3: The Albatross
 - (Deluxe) Track 4: The Bolter
 - (Deluxe) Track 5: Robin
 - (Deluxe) Track 6: The Prophecy
 - (Deluxe) Track 7: Cassandra
 - (Deluxe) Track 8: Peter
-- (Deluxe) Track 9: The Manuscript (Extended)
+- (Deluxe) Track 9: The Manuscript
 
 --- Album: The Life of a Showgirl
 -- Track 1: The Fate of Ophelia
