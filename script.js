@@ -31,12 +31,21 @@ let currentMerge = {
 window.onload = async () => {
     await loadDatabase();
     renderAlbumGrid();
-    
+
     // Attach event listeners
     document.getElementById('btn-left').onclick = () => handleVote('left');
     document.getElementById('btn-right').onclick = () => handleVote('right');
     document.getElementById('copy-btn').onclick = copyToClipboard;
     document.getElementById('restart-btn').onclick = () => location.reload();
+
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+        const section = document.getElementById('ranking-interface');
+        if (section.classList.contains('hidden')) return;
+
+        if (e.key === 'ArrowLeft') handleVote('left');
+        else if (e.key === 'ArrowRight') handleVote('right');
+    });
 };
 
 // --- DATABASE PARSING ---
@@ -59,7 +68,7 @@ async function loadDatabase() {
                 if (parts.length > 1) {
                     // Rejoin in case song title has a colon, remove extra formatting
                     let songTitle = parts.slice(1).join(":").trim();
-                    if(songTitle) allAlbumData[currentAlbum].push(songTitle);
+                    if (songTitle) allAlbumData[currentAlbum].push(songTitle);
                 }
             }
         });
@@ -77,14 +86,14 @@ function renderAlbumGrid() {
     Object.keys(allAlbumData).forEach(album => {
         // Fallback image if not in mapping
         const imgSrc = ALBUM_IMAGES[album] || "icons/default.png";
-        
+
         const card = document.createElement('div');
         card.className = 'album-card';
         card.innerHTML = `
             <img src="${imgSrc}" alt="${album}" onerror="this.src='https://placehold.co/150?text=Album'"/>
             <div>${album}</div>
         `;
-        
+
         card.addEventListener('click', () => {
             // Highlight selected
             document.querySelectorAll('.album-card').forEach(c => c.classList.remove('selected'));
@@ -110,8 +119,8 @@ function startRanking(album) {
     // Initialize Queue: treat every song as a sorted list of length 1
     // Shuffle slightly to make initial matchups less predictable? 
     // (Optional, currently keeping tracklist order)
-    queue = songs.map(song => [song]); 
-    
+    queue = songs.map(song => [song]);
+
     // UI Setup
     document.getElementById('ranking-interface').classList.remove('hidden');
     document.getElementById('results-section').classList.add('hidden');
@@ -143,7 +152,7 @@ function setupNextMerge() {
     currentMerge.listA = queue.shift();
     currentMerge.listB = queue.shift();
     currentMerge.merged = [];
-    
+
     updateComparisonUI();
 }
 
@@ -157,8 +166,26 @@ function updateComparisonUI() {
         return;
     }
 
-    document.getElementById('btn-left').innerText = songA;
-    document.getElementById('btn-right').innerText = songB;
+    const btnLeft = document.getElementById('btn-left');
+    const btnRight = document.getElementById('btn-right');
+
+    // Fade out
+    btnLeft.style.opacity = '0';
+    btnLeft.style.transform = 'translateY(10px)';
+    btnRight.style.opacity = '0';
+    btnRight.style.transform = 'translateY(10px)';
+
+    setTimeout(() => {
+        btnLeft.innerText = songA;
+        btnRight.innerText = songB;
+
+        // Fade in
+        btnLeft.style.opacity = '1';
+        btnLeft.style.transform = 'translateY(0)';
+        btnRight.style.opacity = '1';
+        btnRight.style.transform = 'translateY(0)';
+    }, 200);
+
     updateProgress();
 }
 
@@ -192,7 +219,7 @@ function finishRanking(sortedList) {
     document.getElementById('ranking-interface').classList.add('hidden');
     const resultSection = document.getElementById('results-section');
     resultSection.classList.remove('hidden');
-    
+
     const container = document.getElementById('final-list-container');
     container.innerHTML = "";
 
@@ -204,6 +231,16 @@ function finishRanking(sortedList) {
     });
 
     resultSection.scrollIntoView({ behavior: 'smooth' });
+
+    // Confetti effect!
+    if (window.confetti) {
+        window.confetti({
+            particleCount: 150,
+            spread: 70,
+            origin: { y: 0.6 },
+            colors: ['#8b5cf6', '#ec4899', '#f43f5e']
+        });
+    }
 }
 
 function copyToClipboard() {
@@ -212,7 +249,7 @@ function copyToClipboard() {
     list.forEach(item => {
         text += `${item.innerText}\n`;
     });
-    
+
     navigator.clipboard.writeText(text).then(() => {
         const btn = document.getElementById('copy-btn');
         const originalText = btn.innerText;
@@ -228,5 +265,5 @@ function updateProgress() {
     const bar = document.getElementById('progress-fill');
     let w = parseFloat(bar.style.width) || 0;
     if (w < 95) bar.style.width = (w + 2) + "%";
-    document.getElementById('progress-text').innerText = "Ranking..."; 
+    document.getElementById('progress-text').innerText = "Ranking...";
 }
