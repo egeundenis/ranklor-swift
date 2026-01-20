@@ -1,17 +1,21 @@
 // --- CONFIGURATION ---
 const ALBUM_IMAGES = {
-    "Taylor Swift": "icons/debut.png",
-    "Fearless": "icons/fearless.png",
-    "Speak Now": "icons/speaknow.png",
-    "Red": "icons/red.png",
-    "1989": "icons/1989.png",
-    "reputation": "icons/reputation.png",
-    "Lover": "icons/lover.png",
-    "folklore": "icons/folklore.png",
-    "evermore": "icons/evermore.png",
-    "Midnights": "icons/midnights.png",
-    "The Tortured Poets Department": "icons/thetorturedpoetsdepartmant.png",
-    "The Life of a Showgirl": "icons/thelifeofashowgirl.png"
+    "Taylor Swift": "https://egeundenis.github.io/ranklor-swift/icons/debut.png",
+    "Fearless": "https://egeundenis.github.io/ranklor-swift/icons/fearless.png",
+    "Speak Now": "https://egeundenis.github.io/ranklor-swift/icons/speaknow.png",
+    "Red": "https://egeundenis.github.io/ranklor-swift/icons/red.png",
+    "1989": "https://egeundenis.github.io/ranklor-swift/icons/1989.png",
+    "reputation": "https://egeundenis.github.io/ranklor-swift/icons/reputation.png",
+    "Lover": "https://egeundenis.github.io/ranklor-swift/icons/lover.png",
+    "folklore": "https://egeundenis.github.io/ranklor-swift/icons/folklore.png",
+    "evermore": "https://egeundenis.github.io/ranklor-swift/icons/evermore.png",
+    "Midnights": "https://egeundenis.github.io/ranklor-swift/icons/midnights.png",
+    "The Tortured Poets Department": "https://egeundenis.github.io/ranklor-swift/icons/thetorturedpoetsdepartmant.png",
+    "The Life of a Showgirl": "https://egeundenis.github.io/ranklor-swift/icons/thelifeofashowgirl.png",
+    "Fearless (Taylor's Version)": "https://egeundenis.github.io/ranklor-swift/icons/fearless.png",
+    "Red (Taylor's Version)": "https://egeundenis.github.io/ranklor-swift/icons/red.png",
+    "Speak Now (Taylor's Version)": "https://egeundenis.github.io/ranklor-swift/icons/speaknow.png",
+    "1989 (Taylor's Version)": "https://egeundenis.github.io/ranklor-swift/icons/1989.png"
 };
 
 // --- GLOBAL STATE ---
@@ -109,11 +113,18 @@ function renderAlbumGrid() {
 
 function startRanking(album) {
     currentAlbumName = album;
-    const songs = allAlbumData[album];
+    // Create a copy to shuffle so we don't mutate the original list order
+    const songs = [...allAlbumData[album]];
 
     if (!songs || songs.length < 2) {
         alert("Not enough songs to rank!");
         return;
+    }
+
+    // Fisher-Yates Shuffle
+    for (let i = songs.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [songs[i], songs[j]] = [songs[j], songs[i]];
     }
 
     // Initialize Queue: treat every song as a sorted list of length 1
